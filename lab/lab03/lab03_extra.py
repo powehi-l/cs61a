@@ -1,5 +1,6 @@
 """ Optional problems for Lab 3 """
 
+from operator import truediv
 from tkinter import N
 from lab03 import *
 
@@ -66,9 +67,9 @@ def is_palindrome(n):
     True
     """
     x, y = n, 0
-    def f(): return _____
+    def f(): return y * 10 + x % 10
     while x > 0:
-        x, y = _____, f()
+        x, y = x//10, f()
     return y == n
 
 # More recursion practice
@@ -84,6 +85,8 @@ def skip_mul(n):
     """
     if n == 2:
         return 2
+    elif n == 1:
+        return 1
     else:
         return n * skip_mul(n - 2)
 
@@ -99,6 +102,17 @@ def is_prime(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def f(x):
+        if n % x == 0:
+            return 1
+        else:
+            return 0
+    x = 2
+    while(x < n//2):
+        if f(x) == 1:
+            return False
+        x = x+1
+    return True
 
 
 def interleaved_sum(n, odd_term, even_term):
@@ -110,6 +124,13 @@ def interleaved_sum(n, odd_term, even_term):
     29
     """
     "*** YOUR CODE HERE ***"
+    x, sum = 1, 0
+    while x <= n:
+        if x % 2 == 0:
+            x, sum = x+1, sum+even_term(x)
+        else:
+            x, sum = x+1, sum+odd_term(x)
+    return sum
 
 
 def ten_pairs(n):
@@ -123,3 +144,17 @@ def ten_pairs(n):
     6
     """
     "*** YOUR CODE HERE ***"
+    def appeartimes(t):
+        x, count = n, 0
+        while x:
+            if x % 10 == t:
+                count = count+1
+            x = x // 10
+        return count
+    q, coun = n, 0
+    while q:
+        temp, q = q % 10, q//10
+        coun = coun + appeartimes(10-temp)
+        if temp == 5:
+            coun = coun-1
+    return coun//2
