@@ -1,3 +1,4 @@
+from cmath import log
 from operator import truediv
 from sre_parse import REPEAT_CHARS
 
@@ -194,12 +195,7 @@ def make_repeater(f, n):
     5
     """
     "*** YOUR CODE HERE ***"
-    def repeat_n(x):
-        if n == 0:
-            return x
-        else:
-            return f(make_repeater(f, n-1))
-    return repeat_n
+    return accumulate(compose1, lambda x: x, n, lambda x: f)
 
 
 def compose1(f, g):
@@ -215,7 +211,9 @@ def compose1(f, g):
 
 quine = """
 "*** YOUR CODE HERE ***"
+s = 's="s="+repr(s)+";"+s;print(s)'; s = "s="+repr(s)+";"+s; print(s)
 """
+quine1 = """ x = "print('x = %r;' % x, x)"; print('x = %r;' % x, x)"""
 
 
 def zero(f):
@@ -229,11 +227,13 @@ def successor(n):
 def one(f):
     """Church numeral 1: same as successor(zero)"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(x)
 
 
 def two(f):
     """Church numeral 2: same as successor(successor(zero))"""
     "*** YOUR CODE HERE ***"
+    return lambda x: f(f(x))
 
 
 three = successor(two)
@@ -252,6 +252,8 @@ def church_to_int(n):
     3
     """
     "*** YOUR CODE HERE ***"
+    def f(x): return x+1
+    return n(f)(0)
 
 
 def add_church(m, n):
@@ -261,6 +263,7 @@ def add_church(m, n):
     5
     """
     "*** YOUR CODE HERE ***"
+    return lambda f: lambda x: m(f)(n(f)(x))
 
 
 def mul_church(m, n):
@@ -273,6 +276,7 @@ def mul_church(m, n):
     12
     """
     "*** YOUR CODE HERE ***"
+    return lambda x: m(n(x))
 
 
 def pow_church(m, n):
@@ -284,3 +288,4 @@ def pow_church(m, n):
     9
     """
     "*** YOUR CODE HERE ***"
+    return lambda x: n(m)(x)
