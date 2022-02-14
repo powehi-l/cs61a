@@ -1,5 +1,5 @@
 from operator import sub, mul
-from re import I
+from re import I, X
 from turtle import Turtle
 HW_SOURCE_FILE = 'hw04.py'
 
@@ -200,16 +200,23 @@ def count_change(amount):
     9828
     """
     "*** YOUR CODE HERE ***"
-    if amount == 1:
-        return 1
-    else:
-        return
 
-    def max_2(n):
-        i = 1
-        while 2*i < n:
-            i = 2*I
+    def maxpow(n):
+        i, x = 1, 0
+        while 2*i <= n:
+            i, x = 2*i, x+1
         return i
+
+    def partion(n, m):
+        if n == 0:
+            return 1
+        elif n < 0:
+            return 0
+        elif m == 0:
+            return 0
+        else:
+            return partion(n-m, m) + partion(n, m//2)
+    return partion(amount, maxpow(amount))
 
 ###################
 # Extra Questions #
@@ -225,4 +232,3 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
